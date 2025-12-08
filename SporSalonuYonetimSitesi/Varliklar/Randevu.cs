@@ -12,14 +12,14 @@ namespace SporSalonuYonetimSitesi.Varliklar
 
         //Üye
         public string KullaniciId { get; set; }
-        public Kullanici Kullanici { get; set; }
+        public Kullanici? Kullanici { get; set; }
 
         //Antrenör
         public int AntrenörId { get; set; }
-        public Antrenor Antrenor { get; set; }
+        public Antrenor? Antrenor { get; set; }
 
         //Hizmet
         public int HizmetId { get; set; }
-        public Hizmet Hizmet { get; set; }
+        public Hizmet? Hizmet { get; set; }
     }
 }

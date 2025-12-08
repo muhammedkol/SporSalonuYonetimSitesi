@@ -11,6 +11,6 @@ namespace SporSalonuYonetimSitesi.Varliklar
         public double? Kilo { get; set; }
         public double? Boy { get; set; }
 
-        public ICollection<Randevu> Randevular { get; set; }
+        public ICollection<Randevu>? Randevular { get; set; }
     }
 }

@@ -8,6 +8,6 @@
         public string? ResimYolu { get; set; }
         public string? CalismaSaatleri { get; set; }
 
-        public ICollection<Randevu> Randevular { get; set; }
+        public ICollection<Randevu>? Randevular { get; set; }
     }
 }

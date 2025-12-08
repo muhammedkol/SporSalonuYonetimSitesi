@@ -7,6 +7,6 @@
         public int SureDakika { get; set; }
         public decimal Ucret { get; set; }
 
-        public ICollection<Randevu> Randevular { get; set; }
+        public ICollection<Randevu>? Randevular { get; set; }
     }
 }
