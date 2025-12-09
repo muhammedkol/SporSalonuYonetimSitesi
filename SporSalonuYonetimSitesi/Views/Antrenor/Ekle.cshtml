@@ -1,0 +1,27 @@
+﻿@model SporSalonuYonetimSitesi.Varliklar.Antrenor
+@{
+    ViewData["Title"] = "Antrenör Ekle";
+}
+
+<div class="container mt-5 col-md-6">
+    <h3>Yeni Antrenör Ekle</h3>
+    <form method="post">
+        <div class="alert alert-danger" asp-validation-summary="All"></div>
+
+        <div class="mb-3">
+            <label>Ad Soyad</label>
+            <input type="text" class="form-control" asp-for="AdSoyad" required />
+        </div>
+        <div class="mb-3">
+            <label>Uzmanlık Alanı (Fitness, Yoga vb.)</label>
+            <input type="text" class="form-control" asp-for="UzmanlikAlani" required />
+        </div>
+        <div class="mb-3">
+            <label>Çalışma Saatleri (Örn: Pzt 09-17)</label>
+            <input type="text" class="form-control" asp-for="CalismaSaatleri" />
+        </div>
+
+        <button type="submit" class="btn btn-success">Kaydet</button>
+        <a href="/Antrenor" class="btn btn-secondary">İptal</a>
+    </form>
+</div>

@@ -1,0 +1,36 @@
+﻿@model List<SporSalonuYonetimSitesi.Varliklar.Hizmet>
+@{
+    ViewData["Title"] = "Hizmetler";
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between mb-3">
+        <h2>Hizmet Listesi</h2>
+        <a href="/Hizmet/Ekle" class="btn btn-primary">+ Yeni Hizmet</a>
+    </div>
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Hizmet Adı</th>
+                <th>Süre (Dk)</th>
+                <th>Ücret (TL)</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.HizmetAdi</td>
+                    <td>@item.SureDakika dk</td>
+                    <td>@item.Ucret ₺</td>
+                    <td>
+                        <a href="/Hizmet/Duzenle/@item.HizmetId" class="btn btn-sm btn-warning">Düzenle</a>
+                        <a href="/Hizmet/Sil/@item.HizmetId" class="btn btn-sm btn-danger" onclick="return confirm('Silmek istediğine emin misin?');">Sil</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

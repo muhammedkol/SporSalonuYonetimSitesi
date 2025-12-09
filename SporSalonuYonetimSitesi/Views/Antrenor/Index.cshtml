@@ -1,0 +1,36 @@
+﻿@model List<SporSalonuYonetimSitesi.Varliklar.Antrenor>
+@{
+    ViewData["Title"] = "Antrenörler";
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between mb-3">
+        <h2>Antrenör Listesi</h2>
+        <a href="/Antrenor/Ekle" class="btn btn-primary">+ Yeni Antrenör</a>
+    </div>
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Ad Soyad</th>
+                <th>Uzmanlık</th>
+                <th>Çalışma Saatleri</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.AdSoyad</td>
+                    <td><span class="badge bg-info text-dark">@item.UzmanlikAlani</span></td>
+                    <td>@item.CalismaSaatleri</td>
+                    <td>
+                        <a href="/Antrenor/Duzenle/@item.AntrenorId" class="btn btn-sm btn-warning">Düzenle</a>
+                        <a href="/Antrenor/Sil/@item.AntrenorId" class="btn btn-sm btn-danger" onclick="return confirm('Silmek istediğine emin misin?');">Sil</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

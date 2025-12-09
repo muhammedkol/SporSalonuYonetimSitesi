@@ -1,0 +1,28 @@
+﻿@model SporSalonuYonetimSitesi.Varliklar.Hizmet
+@{
+    ViewData["Title"] = "Hizmet Düzenle";
+}
+
+<div class="container mt-5 col-md-6">
+    <h3>Hizmet Düzenle</h3>
+    <form method="post">
+        <input type="hidden" asp-for="HizmetId" />
+        <div class="alert alert-danger" asp-validation-summary="All"></div>
+
+        <div class="mb-3">
+            <label>Hizmet Adı</label>
+            <input type="text" class="form-control" asp-for="HizmetAdi" required />
+        </div>
+        <div class="mb-3">
+            <label>Süre (Dakika)</label>
+            <input type="number" class="form-control" asp-for="SureDakika" required />
+        </div>
+        <div class="mb-3">
+            <label>Ücret (TL)</label>
+            <input type="number" class="form-control" asp-for="Ucret" required />
+        </div>
+
+        <button type="submit" class="btn btn-warning">Güncelle</button>
+        <a href="/Hizmet" class="btn btn-secondary">İptal</a>
+    </form>
+</div>
