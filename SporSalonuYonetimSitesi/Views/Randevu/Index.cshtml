@@ -1,0 +1,51 @@
+﻿@model List<SporSalonuYonetimSitesi.Varliklar.Randevu>
+@{
+    ViewData["Title"] = "Randevularım";
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between mb-3">
+        <h2>Randevularım</h2>
+        <a href="/Randevu/Al" class="btn btn-success">+ Yeni Randevu Al</a>
+    </div>
+
+    @if (Model.Count == 0)
+    {
+        <div class="alert alert-warning">Henüz hiç randevunuz yok.</div>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Tarih</th>
+                    <th>Saat</th>
+                    <th>Hizmet</th>
+                    <th>Antrenör</th>
+                    <th>Durum</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Tarih.ToString("dd.MM.yyyy")</td>
+                        <td>@item.BaslangicSaati.ToString(@"hh\:mm")</td>
+                        <td>@item.Hizmet?.HizmetAdi</td>
+                        <td>@item.Antrenor?.AdSoyad</td>
+                        <td>
+                            @if (item.Durum == "Bekliyor")
+                            {
+                                <span class="badge bg-warning text-dark">Bekliyor</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">@item.Durum</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

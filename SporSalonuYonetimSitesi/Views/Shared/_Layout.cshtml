@@ -25,6 +25,25 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Antrenor" asp-action="Index">Antrenörler</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark fw-bold" asp-controller="Randevu" asp-action="Index">Randevularım</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <span class="nav-link text-dark fw-bold">Merhaba, @User.Identity.Name</span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link btn btn-danger text-white btn-sm ms-2" href="/Hesap/Cikis">Çıkış</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item"><a class="nav-link text-dark" href="/Hesap/Giris">Giriş</a></li>
+                            <li class="nav-item"><a class="nav-link text-dark" href="/Hesap/Kayit">Kayıt Ol</a></li>
+                        }
                     </ul>
                 </div>
             </div>

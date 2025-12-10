@@ -1,0 +1,41 @@
+﻿@model SporSalonuYonetimSitesi.Varliklar.Randevu
+@{
+    ViewData["Title"] = "Randevu Al";
+}
+
+<div class="container mt-5 col-md-6">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white"><h3>Randevu Oluştur</h3></div>
+        <div class="card-body">
+            <form method="post">
+
+                <div class="mb-3">
+                    <label>Hizmet Seçin</label>
+                    <select asp-for="HizmetId" class="form-select" asp-items="ViewBag.Hizmetler">
+                        <option value="">-- Hizmet Seçiniz --</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label>Antrenör Seçin</label>
+                    <select asp-for="AntrenörId" class="form-select" asp-items="ViewBag.Antrenorler">
+                        <option value="">-- Antrenör Seçiniz --</option>
+                    </select>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label>Tarih</label>
+                        <input type="date" asp-for="Tarih" class="form-control" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label>Saat</label>
+                        <input type="time" asp-for="BaslangicSaati" class="form-control" required />
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Randevuyu Onayla</button>
+            </form>
+        </div>
+    </div>
+</div>
