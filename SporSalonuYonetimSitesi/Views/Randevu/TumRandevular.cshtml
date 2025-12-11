@@ -1,0 +1,74 @@
+﻿@model List<SporSalonuYonetimSitesi.Varliklar.Randevu>
+@{
+    ViewData["Title"] = "Randevu Yönetimi";
+}
+
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">Randevu Yönetim Paneli</h3>
+            <span class="badge bg-light text-dark">Toplam: @Model.Count</span>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-striped table-hover mb-0">
+                <thead class="bg-secondary text-white">
+                    <tr>
+                        <th>Üye Adı</th>
+                        <th>Hizmet / Antrenör</th>
+                        <th>Tarih</th>
+                        <th>Durum</th>
+                        <th class="text-center">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <strong>@item.Kullanici?.Ad @item.Kullanici?.Soyad</strong><br />
+                                <small class="text-muted">@item.Kullanici?.Email</small>
+                            </td>
+                            <td>
+                                @item.Hizmet?.HizmetAdi <br />
+                                <small class="text-primary">@item.Antrenor?.AdSoyad</small>
+                            </td>
+                            <td>
+                                @item.Tarih.ToString("dd.MM.yyyy") <br />
+                                @item.BaslangicSaati.ToString(@"hh\:mm")
+                            </td>
+                            <td>
+                                @if (item.Durum == "Bekliyor")
+                                {
+                                    <span class="badge bg-warning text-dark">Onay Bekliyor</span>
+                                }
+                                else if (item.Durum == "Onaylandı")
+                                {
+                                    <span class="badge bg-success">Onaylandı</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">@item.Durum</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                @if (item.Durum == "Bekliyor")
+                                {
+                                    <a href="/Randevu/Onayla/@item.RandevuId" class="btn btn-sm btn-success fw-bold">
+                                        ✔ Onayla
+                                    </a>
+                                    <a href="/Randevu/Iptal/@item.RandevuId" class="btn btn-sm btn-danger fw-bold ms-1">
+                                        ✖ Reddet
+                                    </a>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">- İşlem Yapıldı -</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

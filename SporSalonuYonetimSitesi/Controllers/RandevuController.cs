@@ -79,5 +79,47 @@ namespace SporSalonuYonetimSitesi.Controllers
 
             return View(randevu);
         }
+
+        // 1. TÜM RANDEVULARI LİSTELE (Sadece Admin)
+        [Authorize(Roles = "Admin")]
+        public IActionResult TumRandevular()
+        {
+            // Bekleyenler en üstte görünsün diye OrderBy kullanıyoruz
+            var randevular = _context.Randevular
+                .Include(r => r.Kullanici) // Randevuyu kim aldı?
+                .Include(r => r.Antrenor)
+                .Include(r => r.Hizmet)
+                .OrderBy(x => x.Durum == "Bekliyor" ? 0 : 1) // Bekleyenler önce
+                .ThenByDescending(x => x.Tarih) // Sonra tarihe göre
+                .ToList();
+
+            return View(randevular);
+        }
+
+        // 2. RANDEVUYU ONAYLA (Sadece Admin)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Onayla(int id)
+        {
+            var randevu = await _context.Randevular.FindAsync(id);
+            if (randevu != null)
+            {
+                randevu.Durum = "Onaylandı";
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("TumRandevular");
+        }
+
+        // 3. RANDEVUYU İPTAL ET / REDDET (Sadece Admin)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Iptal(int id)
+        {
+            var randevu = await _context.Randevular.FindAsync(id);
+            if (randevu != null)
+            {
+                randevu.Durum = "İptal Edildi";
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("TumRandevular");
+        }
     }
 }

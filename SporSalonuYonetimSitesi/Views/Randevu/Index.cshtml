@@ -38,9 +38,17 @@
                             {
                                 <span class="badge bg-warning text-dark">Bekliyor</span>
                             }
+                            else if (item.Durum == "Onaylandı")
+                            {
+                                <span class="badge bg-success">Onaylandı</span>
+                            }
+                            else if (item.Durum == "İptal Edildi")
+                            {
+                                <span class="badge bg-danger">İptal Edildi</span>
+                            }
                             else
                             {
-                                <span class="badge bg-success">@item.Durum</span>
+                                <span class="badge bg-secondary">@item.Durum</span>
                             }
                         </td>
                     </tr>
