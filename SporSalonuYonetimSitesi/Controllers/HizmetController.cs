@@ -2,9 +2,11 @@
 using SporSalonuYonetimSitesi.Veri;      // Veritabanı context'i burada
 using SporSalonuYonetimSitesi.Varliklar; // Tablolar burada
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SporSalonuYonetimSitesi.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class HizmetController : Controller
     {
         private readonly UygulamaDbContext _context;

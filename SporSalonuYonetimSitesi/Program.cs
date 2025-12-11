@@ -49,8 +49,17 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.MapControllers(); // API controller'larýný haritala
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    // DbSeeder sýnýfýndaki metodu çalýþtýr
+    await SporSalonuYonetimSitesi.Veri.DbSeeder.VerileriYukle(services);
+}
 
 app.Run();

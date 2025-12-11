@@ -59,9 +59,7 @@ namespace SporSalonuYonetimSitesi.Controllers
             randevu.KullaniciId = kullanici.Id;
             randevu.Durum = "Bekliyor";
 
-            // --- ÇÖZÜM BURASI ---
-            // Sisteme diyoruz ki: "KullaniciId'nin boş gelmesine takılma, onu ben doldurdum."
-            ModelState.Remove("KullaniciId"); // <--- EKSİK OLAN BU SATIRDI!
+            ModelState.Remove("KullaniciId");
 
             // Diğer ilişkileri de görmezden gel
             ModelState.Remove("Kullanici");

@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SporSalonuYonetimSitesi.Varliklar;
 using SporSalonuYonetimSitesi.Veri;
 using System.Linq;
 
 namespace SporSalonuYonetimSitesi.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AntrenorController : Controller
     {
         private readonly UygulamaDbContext _context;
