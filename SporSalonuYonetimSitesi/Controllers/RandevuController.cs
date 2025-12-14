@@ -121,5 +121,20 @@ namespace SporSalonuYonetimSitesi.Controllers
             }
             return RedirectToAction("TumRandevular");
         }
+
+        // AJAX İÇİN API: Seçilen hizmeti veren antrenörleri getirir
+        [HttpGet]
+        public IActionResult GetAntrenorlerByHizmet(int hizmetId)
+        {
+            var antrenorler = _context.Antrenorler
+                .Where(a => a.Hizmetler.Any(h => h.HizmetId == hizmetId)) // O hizmeti verenler
+                .Select(a => new {
+                    a.AntrenorId,
+                    a.AdSoyad
+                })
+                .ToList();
+
+            return Json(antrenorler); // JSON formatında gönder
+        }
     }
 }

@@ -8,6 +8,7 @@
         public string? ResimYolu { get; set; }
         public string? CalismaSaatleri { get; set; }
 
+        public ICollection<Hizmet> Hizmetler { get; set; } = new List<Hizmet>();
         public ICollection<Randevu>? Randevular { get; set; }
     }
 }

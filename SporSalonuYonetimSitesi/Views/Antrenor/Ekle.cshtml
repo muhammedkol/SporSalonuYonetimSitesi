@@ -17,6 +17,20 @@
             <input type="text" class="form-control" asp-for="UzmanlikAlani" required />
         </div>
         <div class="mb-3">
+            <label class="fw-bold">Verebileceği Hizmetler:</label>
+            <div class="card p-3">
+                @foreach (var hizmet in (List<SporSalonuYonetimSitesi.Varliklar.Hizmet>)ViewBag.TumHizmetler)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="secilenHizmetIds" value="@hizmet.HizmetId" id="h_@hizmet.HizmetId">
+                        <label class="form-check-label" for="h_@hizmet.HizmetId">
+                            @hizmet.HizmetAdi
+                        </label>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="mb-3">
             <label>Çalışma Saatleri (Örn: Pzt 09-17)</label>
             <input type="text" class="form-control" asp-for="CalismaSaatleri" />
         </div>

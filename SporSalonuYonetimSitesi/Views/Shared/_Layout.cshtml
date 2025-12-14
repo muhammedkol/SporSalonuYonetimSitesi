@@ -44,6 +44,7 @@
                         }
                     </ul>
                     <ul class="navbar-nav ms-auto">
+
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
@@ -53,10 +54,26 @@
                                 <a class="nav-link btn btn-danger text-white btn-sm ms-2" href="/Hesap/Cikis">Çıkış</a>
                             </li>
                         }
+
                         else
                         {
-                            <li class="nav-item"><a class="nav-link text-dark" href="/Hesap/Giris">Giriş</a></li>
-                            <li class="nav-item"><a class="nav-link text-dark" href="/Hesap/Kayit">Kayıt Ol</a></li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="/Hesap/Giris?tip=Admin">
+                                    <i class="bi bi-shield-lock"></i> Yönetici Girişi
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-primary fw-bold" href="/Hesap/Giris?tip=Uye">
+                                    Üye Girişi
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link btn btn-outline-primary ms-2" href="/Hesap/Kayit">
+                                    Üye Kaydı
+                                </a>
+                            </li>
                         }
                     </ul>
                 </div>

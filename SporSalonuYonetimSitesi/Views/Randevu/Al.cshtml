@@ -39,3 +39,42 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Hizmet kutusu değiştiğinde çalışır
+            $('#HizmetId').change(function () {
+                var secilenHizmetId = $(this).val();
+                var antrenorKutusu = $('#AntrenorId');
+
+                // Önce kutuyu temizle
+                antrenorKutusu.empty();
+                antrenorKutusu.append('<option value="">-- Yükleniyor... --</option>');
+
+                if (secilenHizmetId) {
+                    // Sunucuya sor: Bu hizmeti kimler veriyor?
+                    $.ajax({
+                        url: '/Randevu/GetAntrenorlerByHizmet?hizmetId=' + secilenHizmetId,
+                        type: 'GET',
+                        success: function (data) {
+                            antrenorKutusu.empty();
+                            antrenorKutusu.append('<option value="">-- Antrenör Seçiniz --</option>');
+
+                            // Gelen hocaları kutuya ekle
+                            $.each(data, function (i, antrenor) {
+                                antrenorKutusu.append('<option value="' + antrenor.antrenorId + '">' + antrenor.adSoyad + '</option>');
+                            });
+                        },
+                        error: function () {
+                            alert('Hocalar yüklenirken hata oluştu.');
+                        }
+                    });
+                } else {
+                    antrenorKutusu.empty();
+                    antrenorKutusu.append('<option value="">-- Önce Hizmet Seçiniz --</option>');
+                }
+            });
+        });
+    </script>
+}

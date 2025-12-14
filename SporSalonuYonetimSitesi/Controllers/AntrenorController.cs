@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SporSalonuYonetimSitesi.Varliklar;
 using SporSalonuYonetimSitesi.Veri;
 using System.Linq;
@@ -27,42 +28,90 @@ namespace SporSalonuYonetimSitesi.Controllers
         [HttpGet]
         public IActionResult Ekle()
         {
+            // Hizmetleri Checkbox olarak göstermek için listeyi gönderiyoruz
+            ViewBag.TumHizmetler = _context.Hizmetler.ToList();
             return View();
         }
 
         // 3. EKLEME (POST)
         [HttpPost]
-        public IActionResult Ekle(Antrenor yeniAntrenor)
+        public async Task<IActionResult> Ekle(Antrenor yeniAntrenor, int[] secilenHizmetIds)
         {
+            // Seçilen hizmet ID'lerini bulup antrenöre ekliyoruz
+            foreach (var id in secilenHizmetIds)
+            {
+                var hizmet = await _context.Hizmetler.FindAsync(id);
+                if (hizmet != null)
+                {
+                    yeniAntrenor.Hizmetler.Add(hizmet);
+                }
+            }
+
+            // Doğrulama kontrolünü biraz esnetiyoruz (ilişkiler yüzünden)
+            ModelState.Remove("Hizmetler");
+
             if (ModelState.IsValid)
             {
                 _context.Antrenorler.Add(yeniAntrenor);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+
+            // Hata olursa listeyi tekrar gönder
+            ViewBag.TumHizmetler = _context.Hizmetler.ToList();
             return View(yeniAntrenor);
         }
 
-        // 4. DÜZENLEME (GET)
+        // 4. DÜZENLEME (GET) - Veriyi ve Hizmetleri Getir
         [HttpGet]
         public IActionResult Duzenle(int id)
         {
-            var antrenor = _context.Antrenorler.Find(id);
+            // Hocayı bulurken HİZMETLERİNİ DE (.Include) getiriyoruz ki kutucukları işaretleyebilelim
+            var antrenor = _context.Antrenorler
+                .Include(x => x.Hizmetler)
+                .FirstOrDefault(x => x.AntrenorId == id);
+
             if (antrenor == null) return NotFound();
+
+            // Tüm hizmetlerin listesini de gönderiyoruz (Checkboxlar için)
+            ViewBag.TumHizmetler = _context.Hizmetler.ToList();
+
             return View(antrenor);
         }
 
-        // 5. DÜZENLEME (POST)
+        // 5. DÜZENLEME (POST) - Güncelle
         [HttpPost]
-        public IActionResult Duzenle(Antrenor guncelAntrenor)
+        public async Task<IActionResult> Duzenle(Antrenor gelenAntrenor, int[] secilenHizmetIds)
         {
-            if (ModelState.IsValid)
+            // 1. Veritabanındaki gerçek kaydı (ilişkileriyle beraber) çekiyoruz
+            var dbAntrenor = await _context.Antrenorler
+                .Include(a => a.Hizmetler)
+                .FirstOrDefaultAsync(a => a.AntrenorId == gelenAntrenor.AntrenorId);
+
+            if (dbAntrenor == null) return NotFound();
+
+            // 2. Normal bilgileri güncelle
+            dbAntrenor.AdSoyad = gelenAntrenor.AdSoyad;
+            dbAntrenor.UzmanlikAlani = gelenAntrenor.UzmanlikAlani;
+            dbAntrenor.CalismaSaatleri = gelenAntrenor.CalismaSaatleri;
+
+            // 3. İLİŞKİLERİ GÜNCELLE (En Önemli Yer)
+            // Önce eski hizmetlerin hepsini siliyoruz (Temiz sayfa)
+            dbAntrenor.Hizmetler.Clear();
+
+            // Sonra yeni seçilenleri tek tek ekliyoruz
+            foreach (var id in secilenHizmetIds)
             {
-                _context.Antrenorler.Update(guncelAntrenor);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
+                var hizmet = await _context.Hizmetler.FindAsync(id);
+                if (hizmet != null)
+                {
+                    dbAntrenor.Hizmetler.Add(hizmet);
+                }
             }
-            return View(guncelAntrenor);
+
+            // 4. Kaydet
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
         // 6. SİLME
