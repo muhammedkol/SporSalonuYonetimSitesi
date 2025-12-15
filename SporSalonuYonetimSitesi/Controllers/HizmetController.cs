@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SporSalonuYonetimSitesi.Veri;      // Veritabanı context'i burada
-using SporSalonuYonetimSitesi.Varliklar; // Tablolar burada
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using SporSalonuYonetimSitesi.Varliklar;
+using SporSalonuYonetimSitesi.Veri;
 
-namespace SporSalonuYonetimSitesi.Controllers
+namespace GymProje.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class HizmetController : Controller

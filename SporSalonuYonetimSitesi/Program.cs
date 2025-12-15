@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using SporSalonuYonetimSitesi.Veri;
 using SporSalonuYonetimSitesi.Varliklar;
+using SporSalonuYonetimSitesi.Veri;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,6 +55,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+// OTOMATÝK ADMÝN OLUÞTURMA KODU (SEED DATA)
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;

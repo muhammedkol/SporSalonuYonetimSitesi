@@ -8,6 +8,7 @@
         <div class="card-header bg-primary text-white"><h3>Randevu Oluştur</h3></div>
         <div class="card-body">
             <form method="post">
+                <div class="alert alert-danger" asp-validation-summary="All"></div>
 
                 <div class="mb-3">
                     <label>Hizmet Seçin</label>
@@ -18,7 +19,7 @@
 
                 <div class="mb-3">
                     <label>Antrenör Seçin</label>
-                    <select asp-for="AntrenörId" class="form-select" asp-items="ViewBag.Antrenorler">
+                    <select asp-for="AntrenorId" class="form-select" asp-items="ViewBag.Antrenorler">
                         <option value="">-- Antrenör Seçiniz --</option>
                     </select>
                 </div>
@@ -28,9 +29,14 @@
                         <label>Tarih</label>
                         <input type="date" asp-for="Tarih" class="form-control" required />
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label>Saat</label>
-                        <input type="time" asp-for="BaslangicSaati" class="form-control" required />
+                    <div class="mb-3">
+                        <label class="fw-bold">Müsait Saatler</label>
+                        <div id="saatContainer" class="d-flex flex-wrap gap-2 p-3 border rounded bg-light">
+                            <small class="text-muted">Lütfen önce Hizmet, Antrenör ve Tarih seçiniz...</small>
+                        </div>
+
+                        <input type="hidden" asp-for="BaslangicSaati" id="BaslangicSaati" required />
+                        <span asp-validation-for="BaslangicSaati" class="text-danger"></span>
                     </div>
                 </div>
 
@@ -74,6 +80,77 @@
                     antrenorKutusu.empty();
                     antrenorKutusu.append('<option value="">-- Önce Hizmet Seçiniz --</option>');
                 }
+                // ---------------------------------------------------------
+            // SAATLERİ GETİRME FONKSİYONU
+            // ---------------------------------------------------------
+            function saatleriGetir() {
+                var hizmetId = $('#HizmetId').val();
+                var antrenorId = $('#AntrenorId').val();
+                var tarih = $('#Tarih').val();
+                var container = $('#saatContainer');
+                var saatInput = $('#BaslangicSaati');
+
+                // Eğer hepsi seçili değilse işlem yapma
+                if (!hizmetId || !antrenorId || !tarih) {
+                    container.html('<small class="text-muted">Lütfen tüm seçimleri yapınız...</small>');
+                    return;
+                }
+
+                container.html('<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Yükleniyor...</span></div>');
+
+                // API'ye git ve saatleri al
+                $.ajax({
+                    url: '/Randevu/GetMusaitSaatler',
+                    type: 'GET',
+                    data: { antrenorId: antrenorId, hizmetId: hizmetId, tarih: tarih },
+                    success: function (data) {
+                        container.empty(); // Kutuyu temizle
+
+                        if (data.length === 0) {
+                            container.html('<span class="text-danger">Bu tarihte uygun saat bulunamadı.</span>');
+                            return;
+                        }
+
+                        // Gelen saatleri buton olarak ekle
+                        $.each(data, function (index, item) {
+                            if (item.durum === "Dolu") {
+                                // DOLU BUTON (Kırmızı, Tıklanamaz)
+                                container.append(`
+                                    <button type="button" class="btn btn-danger btn-sm disabled" style="opacity: 0.6;">
+                                        ${item.saat} <br><small>(Dolu)</small>
+                                    </button>
+                                `);
+                            } else {
+                                // BOŞ BUTON (Yeşil, Tıklanabilir)
+                                container.append(`
+                                    <button type="button" class="btn btn-outline-success btn-sm saat-btn" data-saat="${item.saat}">
+                                        ${item.saat}
+                                    </button>
+                                `);
+                            }
+                        });
+                    }
+                });
+            }
+
+            // Değişiklik olduğunda saatleri yeniden hesapla
+            $('#AntrenorId, #Tarih').change(function () {
+                saatleriGetir();
+            });
+
+            // (Hizmet değişince zaten antrenör değişiyor, o yüzden zincirleme tetiklenir)
+
+            // SAAT BUTONUNA TIKLAYINCA
+            $(document).on('click', '.saat-btn', function () {
+                // Diğer butonların rengini normale döndür
+                $('.saat-btn').removeClass('btn-success text-white').addClass('btn-outline-success');
+
+                // Tıklananı yeşil yap
+                $(this).removeClass('btn-outline-success').addClass('btn-success text-white');
+
+                // Gizli inputa saati yaz
+                $('#BaslangicSaati').val($(this).data('saat'));
+            });
             });
         });
     </script>

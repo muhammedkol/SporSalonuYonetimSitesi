@@ -1,4 +1,6 @@
-﻿namespace SporSalonuYonetimSitesi.Varliklar
+﻿using SporSalonuYonetimSitesi.Varliklar;
+
+namespace SporSalonuYonetimSitesi.Varliklar
 {
     public class Hizmet
     {

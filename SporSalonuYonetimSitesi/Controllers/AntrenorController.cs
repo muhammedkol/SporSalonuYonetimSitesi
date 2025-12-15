@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using SporSalonuYonetimSitesi.Varliklar;
 using SporSalonuYonetimSitesi.Veri;
-using System.Linq;
 
-namespace SporSalonuYonetimSitesi.Controllers
+namespace GymProje.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class AntrenorController : Controller

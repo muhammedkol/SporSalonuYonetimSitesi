@@ -22,6 +22,9 @@ namespace SporSalonuYonetimSitesi.Veri
             }
 
             // 2. ADMİN KULLANCISINI OLUŞTUR
+            // PDF'teki bilgi: ogrencinumarasi@sakarya.edu.tr / Şifre: sau
+
+            // BURAYI KENDİ NUMARANLA DEĞİŞTİR! 👇
             string adminEmail = "G221210012@sakarya.edu.tr";
             string adminSifre = "sau";
 

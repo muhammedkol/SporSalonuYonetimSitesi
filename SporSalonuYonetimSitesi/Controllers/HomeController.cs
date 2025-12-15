@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using SporSalonuYonetimSitesi.Models;
 
-namespace SporSalonuYonetimSitesi.Controllers;
+namespace GymProje.Controllers;
 
 public class HomeController : Controller
 {
