@@ -353,6 +353,47 @@ namespace SporSalonuYonetimSitesi.Controllers
 
             return Json(slotlar);
         }
+
+        // ==========================================
+        // FİLTRELİ RAPORLAMA API'Sİ
+        // ==========================================
+        [HttpGet]
+        public IActionResult RaporGetir(DateTime? tarih, string? durum)
+        {
+            // Sorguyu Hazırla
+            var sorgu = _context.Randevular
+                .Include(r => r.Antrenor)
+                .Include(r => r.Kullanici)
+                .Include(r => r.Hizmet)
+                .AsQueryable(); // Filtreleme yapmak için sorguyu açık bırakıyoruz
+
+            // 2.Tarih girdiyse filtrele
+            if (tarih.HasValue)
+            {
+                sorgu = sorgu.Where(x => x.Tarih.Date == tarih.Value.Date);
+            }
+
+            // 3.Durum girdiyse filtrele (Örn: "Onaylandı")
+            if (!string.IsNullOrEmpty(durum))
+            {
+                sorgu = sorgu.Where(x => x.Durum == durum);
+            }
+
+            // 4. Sonucu Getir ve JSON'a çevir
+            var raporVerisi = sorgu
+                .Select(x => new
+                {
+                    Tarih = x.Tarih.ToShortDateString(),
+                    Saat = x.BaslangicSaati,
+                    UyeAdi = x.Kullanici.Ad + " " + x.Kullanici.Soyad,
+                    AntrenorAdi = x.Antrenor.AdSoyad, // Burayı senin projene göre düzeltmiştik
+                    Hizmet = x.Hizmet.HizmetAdi,
+                    Durum = x.Durum
+                })
+                .ToList();
+
+            return Json(raporVerisi);
+        }
     }
 
 }

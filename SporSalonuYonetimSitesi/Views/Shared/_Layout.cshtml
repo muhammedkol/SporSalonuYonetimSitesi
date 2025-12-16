@@ -35,6 +35,11 @@
                                 <a class="nav-link text-danger fw-bold" asp-controller="Randevu" asp-action="TumRandevular">⚡ RANDEVU YÖNETİMİ</a>
                             </li>
                         }
+                        <li class="nav-item">
+                            <a class="nav-link text-primary fw-bold" asp-controller="YapayZeka" asp-action="Index">
+                                🤖 AI Koç
+                            </a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav ms-auto">
                         @if (User.Identity.IsAuthenticated)

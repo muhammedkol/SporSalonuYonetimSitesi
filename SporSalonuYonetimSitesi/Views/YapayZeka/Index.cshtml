@@ -1,0 +1,108 @@
+﻿@{
+    ViewData["Title"] = "AI Antrenör";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0 mb-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <div class="card-body p-5 text-center">
+                    <h1 class="display-4 fw-bold">🤖 AI Antrenör</h1>
+                    <p class="lead">Yapay Zeka destekli kişisel koçuna hoş geldin.</p>
+                    <p class="opacity-75">Vücut bilgilerini gir, sana özel beslenme ve antrenman programını saniyeler içinde oluşturalım.</p>
+                </div>
+            </div>
+
+            <div class="card shadow border-0">
+                <div class="card-body p-4">
+                    <form id="aiForm">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Boy (cm)</label>
+                                <input type="number" class="form-control form-control-lg" id="boy" placeholder="Örn: 180" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Kilo (kg)</label>
+                                <input type="number" class="form-control form-control-lg" id="kilo" placeholder="Örn: 75" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Cinsiyet</label>
+                                <select class="form-select form-select-lg" id="cinsiyet">
+                                    <option value="Erkek">Erkek</option>
+                                    <option value="Kadın">Kadın</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Hedefin Ne?</label>
+                                <select class="form-select form-select-lg" id="hedef">
+                                    <option value="Kilo Vermek">Kilo Vermek (Yağ Yakımı)</option>
+                                    <option value="Kas Kütlesi Kazanmak">Kas Kütlesi Kazanmak</option>
+                                    <option value="Fit Görünmek">Daha Fit ve Sıkı Görünmek</option>
+                                    <option value="Kondisyon Arttırmak">Kondisyon Arttırmak</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-dark btn-lg" id="btnSor">
+                                <span id="btnText">✨ Yapay Zekaya Oluştur</span>
+                                <span id="loadingSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="sonucAlani" class="card shadow border-0 mt-4 d-none bg-light">
+                <div class="card-body p-4">
+                    <h3 class="fw-bold text-primary mb-3"><i class="bi bi-robot"></i> Senin İçin Önerim:</h3>
+                    <div id="aiCevapIcerik" class="fs-5">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#aiForm").submit(function (e) {
+            e.preventDefault();
+
+            // Butonu kilitle ve yükleniyor yap
+            $("#btnSor").prop("disabled", true);
+            $("#btnText").text("Yapay Zeka Düşünüyor...");
+            $("#loadingSpinner").removeClass("d-none");
+            $("#sonucAlani").addClass("d-none");
+
+            // Verileri al
+            var boy = $("#boy").val();
+            var kilo = $("#kilo").val();
+            var cinsiyet = $("#cinsiyet").val();
+            var hedef = $("#hedef").val();
+
+            // AJAX ile Controller'a gönder
+            $.ajax({
+                type: "POST",
+                url: "/YapayZeka/OneriAl",
+                data: { boy: boy, kilo: kilo, cinsiyet: cinsiyet, hedef: hedef },
+                success: function (response) {
+                    // Cevabı ekrana bas
+                    $("#aiCevapIcerik").html(response.cevap);
+                    $("#sonucAlani").removeClass("d-none");
+                },
+                error: function () {
+                    alert("Bir hata oluştu! Lütfen tekrar deneyin.");
+                },
+                complete: function () {
+                    // Butonu eski haline getir
+                    $("#btnSor").prop("disabled", false);
+                    $("#btnText").html("✨ Yeniden Oluştur");
+                    $("#loadingSpinner").addClass("d-none");
+                }
+            });
+        });
+    });
+</script>
