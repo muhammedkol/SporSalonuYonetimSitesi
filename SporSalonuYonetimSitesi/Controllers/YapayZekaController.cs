@@ -7,9 +7,6 @@ namespace SporSalonuYonetimSitesi.Controllers
 {
     public class YapayZekaController : Controller
     {
-        // =================================================================
-        // YENİ ALDIĞIN 'AIza...' İLE BAŞLAYAN ANAHTARI BURAYA YAPIŞTIR
-        // =================================================================
         private const string ApiKey = "AIzaSyDNBOAmDiDd04LUMSjFCPpRJ29LhphE6-g";
 
         [HttpGet]

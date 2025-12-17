@@ -367,7 +367,7 @@ namespace SporSalonuYonetimSitesi.Controllers
                 .Include(r => r.Hizmet)
                 .AsQueryable(); // Filtreleme yapmak için sorguyu açık bırakıyoruz
 
-            // 2.Tarih girdiyse filtrele
+            // 2.Tarih girildiyse filtrele
             if (tarih.HasValue)
             {
                 sorgu = sorgu.Where(x => x.Tarih.Date == tarih.Value.Date);

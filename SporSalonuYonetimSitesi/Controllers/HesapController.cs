@@ -58,7 +58,7 @@ namespace SporSalonuYonetimSitesi.Controllers
         [HttpGet]
         public IActionResult Giris(string tip = "Uye") // Varsayılan tip 'Uye' olsun
         {
-            // Giriş sayfasına bu tipi gönderiyoruz (ViewBag ile)
+            // Giriş sayfasına bu tipi gönderiyoruz
             ViewBag.Tip = tip;
             return View();
         }

@@ -95,8 +95,8 @@ namespace GymProje.Controllers
             dbAntrenor.UzmanlikAlani = gelenAntrenor.UzmanlikAlani;
             dbAntrenor.CalismaSaatleri = gelenAntrenor.CalismaSaatleri;
 
-            // 3. İLİŞKİLERİ GÜNCELLE (En Önemli Yer)
-            // Önce eski hizmetlerin hepsini siliyoruz (Temiz sayfa)
+            // 3. İLİŞKİLERİ GÜNCELLE
+            // Önce eski hizmetlerin hepsini siliyoruz
             dbAntrenor.Hizmetler.Clear();
 
             // Sonra yeni seçilenleri tek tek ekliyoruz
